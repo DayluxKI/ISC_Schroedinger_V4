@@ -1,0 +1,592 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#app{background:#060810;color:#c8d8e8;font-family:'Courier New',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px 10px 40px}
+.sr-only{position:absolute;left:-9999px}
+.hdr{text-align:center;margin-bottom:16px;width:100%}
+.hdr-sub{font-size:9px;letter-spacing:.3em;color:#334;margin-bottom:4px}
+.hdr-title{font-size:clamp(16px,3vw,30px);font-weight:700;letter-spacing:.05em;transition:color .8s}
+.hdr-build{font-size:9px;color:#2a3848;margin-top:3px;letter-spacing:.12em}
+.row1{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;max-width:940px}
+.cvs-wrap{background:#090d18;border:1px solid #141c2a;border-radius:14px;padding:8px;flex-shrink:0}
+.cvs-status{text-align:center;padding:5px 0 2px;font-size:9px;letter-spacing:.1em}
+.rpanel{flex:1;min-width:210px;max-width:320px;display:flex;flex-direction:column;gap:10px}
+.panel{background:#090d18;border:1px solid #141c2a;border-radius:11px;padding:12px 14px}
+.plbl{font-size:8px;letter-spacing:.22em;color:#334;margin-bottom:10px}
+.mrow{margin-bottom:6px}
+.mhead{display:flex;justify-content:space-between;margin-bottom:2px;font-size:9px;font-family:monospace;color:#556}
+.mtrk{height:4px;background:#0d0d18;border-radius:2px;overflow:hidden}
+.mfil{height:100%;border-radius:2px;transition:width .3s}
+.ibtn{flex:1;min-width:50px;padding:5px 2px;font-size:8px;font-family:monospace;letter-spacing:.07em;border-radius:5px;background:#0d1218;cursor:pointer;transition:all .18s;border:1px solid #1a2030;color:#445}
+.cbtn{width:100%;padding:8px;font-family:monospace;font-size:10px;letter-spacing:.1em;border-radius:7px;cursor:pointer;transition:all .25s;margin-bottom:5px}
+.expbtn{padding:6px 12px;font-size:9px;font-family:monospace;letter-spacing:.1em;border-radius:5px;background:#0a0e18;border:1px solid #2030a0;color:#4060e0;cursor:pointer;transition:all .2s}
+.expbtn:hover{background:#10163a}
+.cr-box{background:#0c1208;border:1px solid #2a4018;border-radius:9px;padding:11px 13px}
+.cr-lbl{font-size:8px;letter-spacing:.22em;color:#3a5025;margin-bottom:7px}
+.cr-data{font-size:9px;color:#7fc050;line-height:1.9;font-family:monospace}
+.swarm-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.mini-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:8px;letter-spacing:.1em;color:#334}
+.anom-bar{width:100%;max-width:940px;margin-top:10px;background:#120808;border:1px solid #2a1010;border-radius:9px;padding:11px 14px}
+.anom-lbl{font-size:8px;letter-spacing:.22em;color:#503020;margin-bottom:7px}
+.ttag{font-size:8px;font-family:monospace;padding:2px 7px;border-radius:3px;background:#1a0808;border:1px solid #3a1010;color:#cc5040;letter-spacing:.08em}
+.ttag.ok{background:#081208;border-color:#103010;color:#4a9040}
+.hash-box{margin-top:10px;background:#090d18;border:1px solid #141c2a;border-radius:9px;padding:11px 14px;width:100%;max-width:940px}
+.log-box{margin-top:8px;background:#060808;border:1px solid #0d1a10;border-radius:9px;padding:11px 14px;width:100%;max-width:940px}
+.lentry{font-size:8px;font-family:monospace;line-height:1.9;border-left:2px solid #0f1810;padding-left:6px;margin-bottom:1px;color:#1e2820}
+.lentry.lat{color:#4fa050;border-left-color:#4fa050}
+.gps-panel{background:#090d18;border:1px solid #141c2a;border-radius:11px;padding:12px 14px;width:100%;max-width:940px;margin-top:10px}
+.gps-map{background:#0a1020;border:1px solid #141c2a;border-radius:8px;overflow:hidden;position:relative}
+.audio-panel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
+.audio-tag{font-size:8px;font-family:monospace;padding:2px 8px;border-radius:3px;background:#0a1a0a;border:1px solid #1a4020;color:#40c060;letter-spacing:.08em}
+.audio-tag.off{background:#100a0a;border-color:#301010;color:#804040}
+</style>
+
+<div id="app">
+<h2 class="sr-only">ISC Quantum Orchestrator V6 — Audio-synthesizer collapse events, GPS ISC-A-Bridge mapping, 3-core swarm with deepfake detection</h2>
+
+<div class="hdr">
+  <div class="hdr-sub">ISC-SCHRÖDINGER · V6 · AUDIO + GPS</div>
+  <div class="hdr-title" id="titleEl">QUANTUM ORCHESTRATOR V6</div>
+  <div class="hdr-build">512 STATES × 3 CORES · AUDIO SYNTHESIS · ISC-A GPS-MAP · SWARM-IMMUNE · DFP V5.0</div>
+</div>
+
+<div class="row1">
+  <div class="cvs-wrap">
+    <canvas id="mainCanvas" width="380" height="380" style="display:block"></canvas>
+    <div class="cvs-status" id="statusEl"><span style="color:#334">◌ PAUSIERT</span></div>
+  </div>
+
+  <div class="rpanel">
+    <div class="panel">
+      <div class="plbl">◈ BIO-PARAMETER · KERN 1</div>
+      <div class="mrow"><div class="mhead"><span>AKTIVATION</span><span id="mv-w">50.0%</span></div><div class="mtrk"><div class="mfil" id="mf-w" style="width:50%;background:linear-gradient(90deg,#38aaee,#58ccff)"></div></div></div>
+      <div class="mrow"><div class="mhead"><span>DOPAMIN</span><span id="mv-d">30.0%</span></div><div class="mtrk"><div class="mfil" id="mf-d" style="width:30%;background:linear-gradient(90deg,#38cc70,#5fdd90)"></div></div></div>
+      <div class="mrow"><div class="mhead"><span>CORTISOL</span><span id="mv-c">20.0%</span></div><div class="mtrk"><div class="mfil" id="mf-c" style="width:20%;background:linear-gradient(90deg,#ee4040,#ff6060)"></div></div></div>
+      <div class="mrow" style="margin-bottom:0"><div class="mhead"><span>BEWUSSTSEIN</span><span id="mv-con">50.0%</span></div><div class="mtrk"><div class="mfil" id="mf-con" style="width:50%;background:linear-gradient(90deg,#aa60ee,#cc88ff)"></div></div></div>
+    </div>
+
+    <div class="panel">
+      <div class="plbl">◈ AUDIO-SYNTHESIZER</div>
+      <div class="audio-panel">
+        <span class="audio-tag" id="audioStatusTag">AUDIO BEREIT</span>
+        <span class="audio-tag" id="lastEventTag" style="color:#334;border-color:#1a2030;background:#090d18">KEIN EVENT</span>
+      </div>
+      <div style="font-size:8px;color:#334;margin-top:7px;font-family:monospace" id="audioDesc">Kollaps → harmonisch · Anomalie → dissonant · JAR → beacon-ping</div>
+      <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:8px;color:#445;font-family:monospace">LAUTSTÄRKE</span>
+        <input type="range" min="0" max="100" value="70" id="volSlider" style="flex:1" oninput="setVol(this.value)">
+        <span style="font-size:8px;color:#4af;font-family:monospace" id="volVal">70%</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="plbl">◈ INTENT-VEKTOR</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap" id="intentBtns">
+        <button class="ibtn" data-m="guardian" onclick="setIntent('guardian')" style="border-color:#4af;color:#4af;background:#0a1a2a">⚔ GUARDIAN</button>
+        <button class="ibtn" data-m="optimizer" onclick="setIntent('optimizer')">⚙ OPTIMIZER</button>
+        <button class="ibtn" data-m="explorer" onclick="setIntent('explorer')">✦ EXPLORER</button>
+        <button class="ibtn" data-m="isc_a" onclick="setIntent('isc_a')">GPS ISC-A</button>
+      </div>
+      <div style="font-size:8px;color:#334;margin-top:6px;text-align:center;font-family:monospace" id="intentDesc">Aktiv: Sicherheit</div>
+    </div>
+
+    <div class="panel">
+      <div class="plbl">◈ STEUERUNG</div>
+      <button class="cbtn" id="startBtn" onclick="toggleRun()" style="border:none;background:linear-gradient(135deg,#102030,#051525);color:#58a">▶ START SUPERPOSITION</button>
+      <button class="cbtn" onclick="doCollapse()" style="border:1px solid #ffc04466;background:linear-gradient(135deg,#201808,#100c04);color:#ffc044">⚡ KOLLAPS AUSLÖSEN</button>
+      <button class="cbtn" onclick="injectAnomaly()" style="border:1px solid #ff406055;background:linear-gradient(135deg,#200808,#100404);color:#ff6060;margin-bottom:0">☣ DEEPFAKE INJIZIEREN</button>
+    </div>
+
+    <div class="panel" style="display:flex;justify-content:space-between;align-items:center">
+      <div><div class="plbl" style="margin-bottom:3px">◈ EXPORT</div><div style="font-size:8px;color:#334">JSON + Audio-Log</div></div>
+      <button class="expbtn" onclick="exportData()">⬇ JSON</button>
+    </div>
+
+    <div id="crDiv" style="display:none" class="cr-box">
+      <div class="cr-lbl">◈ KOLLAPS-ERGEBNIS</div>
+      <div class="cr-data" id="crContent"></div>
+    </div>
+  </div>
+</div>
+
+<div class="swarm-row">
+  <div class="mini-wrap"><canvas id="c2" width="110" height="110"></canvas><span>KERN 2</span></div>
+  <div class="mini-wrap"><canvas id="c3" width="110" height="110"></canvas><span>KERN 3</span></div>
+</div>
+
+<div id="anomDiv" style="display:none" class="anom-bar">
+  <div class="anom-lbl">◈ ISC-IMMUN · DFP V5.0 AKTIV</div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center" id="anomInner"></div>
+</div>
+
+<div class="gps-panel">
+  <div class="plbl">◈ ISC-A-BRIDGE · GPS-KARTE · JAMMING AVOIDANCE RESPONSE</div>
+  <div class="gps-map" id="gpsMap" style="height:200px">
+    <canvas id="gpsCanvas" width="900" height="200" style="display:block;width:100%;height:100%"></canvas>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px" id="gpsStatus">
+    <span style="font-size:8px;font-family:monospace;color:#334" id="gpsCoord">LAT: -- · LON: --</span>
+    <span class="audio-tag" id="gpsJamTag">GPS OK</span>
+    <span style="font-size:8px;color:#334;font-family:monospace" id="jarStatus">JAR: STANDBY</span>
+    <button class="expbtn" style="font-size:8px;padding:4px 10px" onclick="requestGPS()">POSITION LADEN</button>
+  </div>
+</div>
+
+<div class="hash-box">
+  <div class="plbl">◈ BLOCKCHAIN HASH-KETTE</div>
+  <canvas id="hashCanvas" width="900" height="28" style="display:block;width:100%;max-width:100%"></canvas>
+  <div style="font-size:7px;color:#1e2a20;margin-top:4px;font-family:monospace" id="hashTail"></div>
+</div>
+
+<div id="logBox" style="display:none" class="log-box">
+  <div class="plbl">◈ EREIGNIS-PROTOKOLL</div>
+  <div id="logInner"></div>
+</div>
+</div>
+
+<script>
+const N=512,TICK=50,CS=0.008;
+function sig(x){return 1/(1+Math.exp(-x))}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+
+class QCore{
+  constructor(){
+    this.w=new Float32Array(N).map(()=>sig(randn()*.01));
+    this.d=new Float32Array(N).map(()=>Math.random()*.3);
+    this.co=new Float32Array(N).map(()=>Math.random()*.2);
+    this.cn=new Float32Array(N).map(()=>sig(randn()*.01));
+    this.cp=Array.from({length:N},()=>Array.from({length:16},()=>({i:Math.floor(Math.random()*N),s:(Math.random()-.5)*CS*2})));
+    this.hc=[];this.collapsed=false;this.cw=null;this.anom=0;this.jam=0;
+  }
+  evolve(dt=1,si=0){
+    const nw=new Float32Array(N);
+    for(let i=0;i<N;i++){
+      let delta=0;for(const{i:ii,s}of this.cp[i])delta+=s*this.w[ii];
+      nw[i]=sig(this.w[i]+delta*dt+.01*randn()+si*.005);
+      this.d[i]=clamp(this.d[i]-.001*dt+.02*Math.max(0,randn()*.3),0,1);
+      this.co[i]=clamp(this.co[i]+.005*dt-.01*this.d[i]*dt,0,1);
+      this.cn[i]=sig(this.cn[i]+.001*randn());
+    }
+    this.w=nw;
+    const sum=this.w.reduce((a,b)=>a+b,0);
+    const h=(Math.round(sum*1e6)%0xFFFFFF).toString(16).padStart(6,'0');
+    this.hc.push(h);if(this.hc.length>64)this.hc.shift();
+    return h;
+  }
+  collapse(iv){
+    let best=-Infinity,bi=0;
+    for(let i=0;i<N;i++){
+      const st=[this.w[i],this.d[i],this.co[i]];
+      const dot=iv.reduce((s,v,j)=>s+v*st[j],0);
+      const mA=Math.sqrt(iv.reduce((s,v)=>s+v*v,0))+1e-6;
+      const mB=Math.sqrt(st.reduce((s,v)=>s+v*v,0))+1e-6;
+      const sc=this.w[i]+.3*this.d[i]-.2*this.co[i]+.5*(dot/(mA*mB));
+      if(sc>best){best=sc;bi=i;}
+    }
+    this.collapsed=true;this.cw=bi;
+    return{winner:bi,score:best,hash:this.hc[this.hc.length-1]??'000000',
+      ws:{w:this.w[bi],d:this.d[bi],c:this.co[bi]}};
+  }
+  injectAnom(){
+    for(let i=0;i<Math.floor(N*.15);i++){
+      const idx=Math.floor(Math.random()*N);
+      this.w[idx]=Math.random()>.5?.99:.01;
+      this.co[idx]=clamp(this.co[idx]+.4,0,1);
+      this.d[idx]=clamp(this.d[idx]-.3,0,1);
+    }
+    this.anom=Math.random()*.4+.6;
+    this.jam=Math.random()>.4?1:0;
+  }
+  avg(){const a=arr=>arr.reduce((x,y)=>x+y,0)/N;return{w:a(this.w),d:a(this.d),c:a(this.co),cn:a(this.cn)};}
+}
+
+const cores=[new QCore(),new QCore(),new QCore()];
+let running=false,steps=0,iMode='guardian',clog=[],anomActive=false,tickTimer=null;
+let avgs=cores[0].avg();
+let audioCtx=null,vol=0.7;
+let gpsPos=null,gpsBeacons=[],gpsJamActive=false,gpsTick=0;
+
+const iDefs={
+  guardian:{vec:[.8,.1,.1],color:'#4af',desc:'Sicherheit · [0.8,0.1,0.1]'},
+  optimizer:{vec:[.1,.8,.1],color:'#fa4',desc:'Optimierung · [0.1,0.8,0.1]'},
+  explorer:{vec:[.1,.2,.7],color:'#a4f',desc:'Exploration · [0.1,0.2,0.7]'},
+  isc_a:{vec:[.5,.3,.2],color:'#4fc',desc:'ISC-A GPS · JAR aktiv · [0.5,0.3,0.2]'},
+};
+
+function initAudio(){
+  if(audioCtx)return;
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+}
+
+function playCollapse(score,anomaly){
+  initAudio();
+  if(!audioCtx)return;
+  const t=audioCtx.currentTime;
+  const gain=audioCtx.createGain();
+  gain.connect(audioCtx.destination);
+  gain.gain.setValueAtTime(vol*.4,t);
+  gain.gain.exponentialRampToValueAtTime(.001,t+1.2);
+  if(!anomaly){
+    const freqs=[261.6,329.6,392,523.2];
+    freqs.forEach((f,i)=>{
+      const o=audioCtx.createOscillator();
+      o.connect(gain);o.type='sine';
+      o.frequency.setValueAtTime(f*(1+score*.3),t+i*.05);
+      o.start(t+i*.05);o.stop(t+1.2);
+    });
+    document.getElementById('lastEventTag').textContent='KOLLAPS HARMONISCH';
+    document.getElementById('lastEventTag').style.color='#40c060';
+  }else{
+    [180,243,310,427,580].forEach((f,i)=>{
+      const o=audioCtx.createOscillator();
+      o.connect(gain);o.type='sawtooth';
+      o.frequency.setValueAtTime(f,t+i*.03);
+      o.frequency.linearRampToValueAtTime(f*1.4,t+.5);
+      o.start(t+i*.03);o.stop(t+.9);
+    });
+    document.getElementById('lastEventTag').textContent='ANOMALIE DISSONANT';
+    document.getElementById('lastEventTag').style.color='#ff6040';
+  }
+}
+
+function playJAR(){
+  initAudio();if(!audioCtx)return;
+  const t=audioCtx.currentTime;
+  const g=audioCtx.createGain();g.connect(audioCtx.destination);
+  g.gain.setValueAtTime(vol*.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.4);
+  const o=audioCtx.createOscillator();o.connect(g);o.type='sine';
+  o.frequency.setValueAtTime(880,t);o.frequency.exponentialRampToValueAtTime(1760,t+.15);
+  o.frequency.exponentialRampToValueAtTime(880,t+.3);
+  o.start(t);o.stop(t+.4);
+  document.getElementById('lastEventTag').textContent='JAR BEACON PING';
+  document.getElementById('lastEventTag').style.color='#40ccff';
+}
+
+function setVol(v){vol=v/100;document.getElementById('volVal').textContent=v+'%';}
+
+function setIntent(m){
+  iMode=m;
+  document.querySelectorAll('.ibtn').forEach(b=>{
+    const d=iDefs[b.dataset.m];
+    b.style.borderColor=b.dataset.m===m?d.color:'#1a2030';
+    b.style.color=b.dataset.m===m?d.color:'#445';
+    b.style.background=b.dataset.m===m?d.color+'22':'#0d1218';
+  });
+  document.getElementById('intentDesc').textContent='Aktiv: '+iDefs[m].desc;
+  if(m==='isc_a'&&running)playJAR();
+}
+
+function toggleRun(){
+  running=!running;
+  const btn=document.getElementById('startBtn');
+  if(running){
+    initAudio();
+    btn.style.background='linear-gradient(135deg,#1a3020,#0a2014)';
+    btn.style.color='#4fa';btn.textContent='⏸ PAUSE';
+    startTick();
+  }else{
+    btn.style.background='linear-gradient(135deg,#102030,#051525)';
+    btn.style.color='#58a';btn.textContent='▶ START SUPERPOSITION';
+    clearInterval(tickTimer);
+  }
+}
+
+function startTick(){
+  tickTimer=setInterval(()=>{
+    const sw=(cores[1].avg().w+cores[2].avg().w)/2-.5;
+    cores.forEach((c,i)=>{c.collapsed=false;c.evolve(.8,i===0?sw:cores[0].avg().w-.5);});
+    avgs=cores[0].avg();steps++;
+    updateMeters();updateStatus();renderHash();updateTitle();
+    if(anomActive)tickAnom();
+    if(iMode==='isc_a'){gpsTick++;if(gpsTick%20===0)playJAR();}
+    tickGPS();
+  },TICK);
+}
+
+function updateMeters(){
+  const a=avgs;
+  const sm=(id,v)=>{document.getElementById('mv-'+id).textContent=(v*100).toFixed(1)+'%';document.getElementById('mf-'+id).style.width=(v*100)+'%';};
+  sm('w',a.w);sm('d',a.d);sm('c',a.c);sm('con',a.cn);
+}
+function updateStatus(){
+  document.getElementById('statusEl').innerHTML=running?`<span style="color:#3fa">● AKTIV · Schritt ${steps}</span>`:'<span style="color:#554">◌ PAUSIERT</span>';
+}
+function updateTitle(){
+  const a=avgs;
+  document.getElementById('titleEl').style.color=`rgb(${Math.round(80+175*a.w)},${Math.round(20+180*a.d)},${Math.round(200-150*a.c)})`;
+}
+
+function doCollapse(){
+  const iv=iDefs[iMode].vec;
+  const res=cores[0].collapse(iv);
+  playCollapse(res.score,anomActive);
+  const ts=new Date().toLocaleTimeString('de-DE');
+  const entry=`[${ts}] KOLLAPS → #${res.winner} | Score:${res.score.toFixed(4)} | Hash:${res.hash} | ${iMode.toUpperCase()}`;
+  clog.unshift(entry);if(clog.length>14)clog.pop();
+  document.getElementById('crContent').innerHTML=
+    `<div>Gewinner: <strong style="color:#9fd060">#${res.winner}</strong></div>
+     <div>Score: <strong style="color:#9fd060">${res.score.toFixed(4)}</strong></div>
+     <div>Hash: <span style="color:#3a5025">${res.hash}</span></div>
+     <div>W:${res.ws.w.toFixed(3)} D:${res.ws.d.toFixed(3)} C:${res.ws.c.toFixed(3)}</div>`;
+  document.getElementById('crDiv').style.display='block';
+  renderLog();
+}
+
+function injectAnomaly(){
+  anomActive=true;cores.forEach(c=>c.injectAnom());
+  playCollapse(0,true);
+  document.getElementById('anomDiv').style.display='block';
+  const ts=new Date().toLocaleTimeString('de-DE');
+  clog.unshift(`[${ts}] ☣ DEEPFAKE-INJEKTION | Anom:${cores[0].anom.toFixed(3)} | JAM:${cores[0].jam?'DETECTED':'CLEAR'}`);
+  renderLog();renderAnom();
+  gpsJamActive=cores[0].jam===1;
+  document.getElementById('gpsJamTag').textContent=gpsJamActive?'GPS JAM!':'GPS OK';
+  document.getElementById('gpsJamTag').className=gpsJamActive?'audio-tag off':'audio-tag';
+  document.getElementById('jarStatus').textContent=gpsJamActive?'JAR: AKTIV — AUSWEICHEN':'JAR: STANDBY';
+  document.getElementById('jarStatus').style.color=gpsJamActive?'#ff8040':'#334';
+}
+
+function tickAnom(){
+  const a=avgs;
+  if(a.c>.55){cores.forEach(c=>{c.anom=Math.max(0,c.anom-.004);});}
+  renderAnom();
+  if(cores[0].anom<.04){anomActive=false;document.getElementById('anomDiv').style.display='none';
+    gpsJamActive=false;document.getElementById('gpsJamTag').textContent='GPS OK';document.getElementById('gpsJamTag').className='audio-tag';
+    document.getElementById('jarStatus').textContent='JAR: STANDBY';document.getElementById('jarStatus').style.color='#334';
+  }
+}
+
+function renderAnom(){
+  const c=cores[0];
+  document.getElementById('anomInner').innerHTML=
+    `<span class="ttag">ANOM ${(c.anom*100).toFixed(0)}%</span>`+
+    `<span class="ttag ${c.jam?'':'ok'}">${c.jam?'GPS-JAM':'GPS CLEAR'}</span>`+
+    `<span class="ttag">DFP V5.0</span>`+
+    `<span class="ttag ${avgs.c>.55?'':'ok'}">CORTISOL ${avgs.c>.55?'ALARM':'OK'}</span>`+
+    `<span style="font-size:8px;color:#445;font-family:monospace">ISC-IMMUN heilt...</span>`;
+}
+
+function renderLog(){
+  document.getElementById('logBox').style.display='block';
+  document.getElementById('logInner').innerHTML=clog.map((e,i)=>
+    `<div class="lentry ${i===0?'lat':''}">${e}</div>`).join('');
+}
+
+function renderHash(){
+  const chain=cores[0].hc;
+  const c=document.getElementById('hashCanvas'),ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  if(!chain.length)return;
+  const w=c.width,h=c.height,step=w/Math.max(chain.length,1);
+  ctx.beginPath();
+  chain.forEach((hash,i)=>{
+    const val=parseInt(hash.slice(0,2),16)/255;
+    const x=i*step,y=h-val*(h-3);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle='rgba(70,200,140,.7)';ctx.lineWidth=1.5;ctx.stroke();
+  document.getElementById('hashTail').textContent=chain.slice(-10).join(' · ');
+}
+
+function requestGPS(){
+  if(!navigator.geolocation){
+    document.getElementById('gpsCoord').textContent='GEOLOCATION NICHT VERFÜGBAR';return;
+  }
+  document.getElementById('gpsCoord').textContent='POSITION WIRD ERMITTELT...';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    gpsPos={lat:pos.coords.latitude,lon:pos.coords.longitude,acc:pos.coords.accuracy};
+    document.getElementById('gpsCoord').textContent=
+      `LAT:${gpsPos.lat.toFixed(5)} · LON:${gpsPos.lon.toFixed(5)} · ACC:${Math.round(gpsPos.acc)}m`;
+    addBeacon(gpsPos.lat,gpsPos.lon);
+    const ts=new Date().toLocaleTimeString('de-DE');
+    clog.unshift(`[${ts}] GPS FIX · lat:${gpsPos.lat.toFixed(4)} lon:${gpsPos.lon.toFixed(4)} acc:${Math.round(gpsPos.acc)}m`);
+    renderLog();
+  },err=>{
+    document.getElementById('gpsCoord').textContent=`GPS FEHLER: ${err.message}`;
+  },{enableHighAccuracy:true,timeout:8000});
+}
+
+function addBeacon(lat,lon){
+  gpsBeacons.push({lat,lon,t:Date.now(),id:gpsBeacons.length+1});
+  if(gpsBeacons.length>8)gpsBeacons.shift();
+}
+
+let gpsT=0;
+function tickGPS(){
+  gpsT+=.02;
+  const c=document.getElementById('gpsCanvas'),ctx=c.getContext('2d');
+  const W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);
+
+  ctx.fillStyle='#0a1020';ctx.fillRect(0,0,W,H);
+
+  const gridCol=gpsJamActive?'rgba(180,40,20,.15)':'rgba(30,80,60,.25)';
+  ctx.strokeStyle=gridCol;ctx.lineWidth=.5;
+  for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+  if(gpsJamActive){
+    for(let i=0;i<20;i++){
+      ctx.fillStyle=`rgba(255,${Math.floor(Math.random()*60)},20,${Math.random()*.4})`;
+      ctx.fillRect(Math.random()*W,Math.random()*H,2+Math.random()*6,1);
+    }
+  }
+
+  const cx=gpsPos?W/2:W/2,cy=gpsPos?H/2:H/2;
+
+  if(iMode==='isc_a'||gpsJamActive){
+    const ring1=40+20*Math.sin(gpsT*1.5);
+    const ring2=80+15*Math.sin(gpsT*1.1+1);
+    const ring3=120+10*Math.sin(gpsT*.8+2);
+    [ring1,ring2,ring3].forEach((r,i)=>{
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.strokeStyle=gpsJamActive?`rgba(255,80,40,${.3-i*.08})`:`rgba(40,200,140,${.35-i*.09})`;
+      ctx.lineWidth=1;ctx.stroke();
+    });
+    const bAng=gpsT*.7,bR=50;
+    const b1x=cx+bR*Math.cos(bAng),b1y=cy+bR*Math.sin(bAng);
+    const b2x=cx+bR*Math.cos(bAng+Math.PI),b2y=cy+bR*Math.sin(bAng+Math.PI);
+    [[b1x,b1y,'#50ffcc'],[b2x,b2y,'#50ccff']].forEach(([bx,by,bc])=>{
+      ctx.beginPath();ctx.arc(bx,by,4,0,Math.PI*2);ctx.fillStyle=bc;ctx.fill();
+      ctx.beginPath();ctx.arc(bx,by,8+4*Math.sin(gpsT*3),0,Math.PI*2);
+      ctx.strokeStyle=bc+'66';ctx.lineWidth=1;ctx.stroke();
+    });
+  }
+
+  const pulse=Math.sin(gpsT*2.5)*.3+.7;
+  ctx.beginPath();ctx.arc(cx,cy,6*pulse,0,Math.PI*2);
+  ctx.fillStyle=gpsJamActive?'#ff6040':'#40ffcc';ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,14*pulse,0,Math.PI*2);
+  ctx.strokeStyle=gpsJamActive?'rgba(255,80,40,.5)':'rgba(40,255,180,.4)';ctx.lineWidth=1.5;ctx.stroke();
+
+  gpsBeacons.forEach((b,i)=>{
+    const age=(Date.now()-b.t)/10000;
+    const alpha=Math.max(0,1-age);
+    const bx=cx+(i-gpsBeacons.length/2)*18;
+    const by=cy+20;
+    ctx.beginPath();ctx.arc(bx,by,3,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,220,80,${alpha*.8})`;ctx.fill();
+    ctx.fillStyle=`rgba(200,180,60,${alpha*.7})`;
+    ctx.font='7px monospace';ctx.textAlign='center';
+    ctx.fillText(`#${b.id}`,bx,by-7);
+  });
+
+  const label=gpsPos?`${gpsPos.lat.toFixed(4)}° N, ${gpsPos.lon.toFixed(4)}° E`:'WARTE AUF GPS-FIX...';
+  ctx.fillStyle=gpsJamActive?'rgba(255,100,60,.7)':'rgba(40,200,140,.6)';
+  ctx.font='9px monospace';ctx.textAlign='left';
+  ctx.fillText(label,8,H-8);
+
+  const modeLabel=gpsJamActive?'JAR AKTIV — BINAURAL PHASE':'ISC-A-BRIDGE · BEACON MODE';
+  ctx.fillStyle=gpsJamActive?'rgba(255,80,40,.6)':'rgba(80,180,220,.5)';
+  ctx.textAlign='right';
+  ctx.fillText(modeLabel,W-8,H-8);
+}
+
+const PART=Array.from({length:200},()=>({a:Math.random()*Math.PI*2,r:50+Math.random()*110}));
+const PART2=Array.from({length:50},()=>({a:Math.random()*Math.PI*2,r:15+Math.random()*30}));
+let tA=0;
+
+function drawMain(){
+  const cv=document.getElementById('mainCanvas'),ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height,cx=W/2,cy=H/2;
+  tA+=.025;ctx.clearRect(0,0,W,H);
+  const a=avgs;
+  const pr=(55+35*(Math.sin(tA*2.1)*.5+.5)*(1+.3*a.d))*(.8+.22*a.d);
+
+  for(let ring=3;ring>=1;ring--){
+    ctx.beginPath();ctx.arc(cx,cy,pr*(1.2+ring*.35),0,Math.PI*2);
+    ctx.strokeStyle=`rgba(${Math.round(60+140*a.w)},${Math.round(10+140*a.d)},${Math.round(180-120*a.c)},${.04+.03*a.d-.01*ring})`;
+    ctx.lineWidth=14-ring*3;ctx.stroke();
+  }
+
+  const nP=Math.min(200,Math.round(60+140*a.cn));
+  for(let i=0;i<nP;i++){
+    const si=(i*Math.floor(512/nP))%512;
+    const c0=cores[0];PART[i].a+=.008+.012*c0.d[si];
+    const rad=PART[i].r*c0.w[si]+pr*.9;
+    const px=cx+rad*Math.cos(PART[i].a),py=cy+rad*Math.sin(PART[i].a);
+    ctx.beginPath();ctx.arc(px,py,1.5+2.5*c0.d[si],0,Math.PI*2);
+    ctx.fillStyle=`rgba(${Math.round(255*c0.d[si])},${Math.round(120-100*c0.co[si])},${Math.round(200*(1-c0.co[si]))},.7)`;ctx.fill();
+  }
+
+  if(anomActive){
+    for(let i=0;i<30;i++){
+      const ang=Math.random()*Math.PI*2,r2=pr+Math.random()*60;
+      ctx.beginPath();ctx.arc(cx+r2*Math.cos(ang),cy+r2*Math.sin(ang),1,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,60,40,.6)';ctx.fill();
+    }
+  }
+
+  if(iMode==='isc_a'){
+    const jarA=tA*.7,jarR=pr*1.35;
+    [[0,'rgba(80,255,200,.9)'],[Math.PI,'rgba(80,200,255,.9)']].forEach(([off,col])=>{
+      ctx.beginPath();ctx.arc(cx+jarR*Math.cos(jarA+off),cy+jarR*Math.sin(jarA+off),5,0,Math.PI*2);
+      ctx.fillStyle=col;ctx.fill();
+    });
+    ctx.strokeStyle='rgba(80,255,200,.2)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.arc(cx,cy,jarR,0,Math.PI*2);ctx.stroke();
+  }
+
+  const gr=ctx.createRadialGradient(cx,cy,pr*.1,cx,cy,pr);
+  const r=Math.round(80+170*a.w),g=Math.round(20+170*a.d),bv=Math.round(200-150*a.c);
+  gr.addColorStop(0,`rgba(${r},${g},${bv},.95)`);
+  gr.addColorStop(.6,`rgba(${Math.round(r*.6)},${Math.round(g*.6)},${Math.round(bv*.8)},.5)`);
+  gr.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.beginPath();ctx.arc(cx,cy,pr,0,Math.PI*2);ctx.fillStyle=gr;ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,pr,0,Math.PI*2);
+  ctx.strokeStyle=`rgba(${r+40},${g+40},${bv+40},.9)`;ctx.lineWidth=1.5;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,pr*.55,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=1;ctx.stroke();
+
+  if(cores[0].collapsed&&cores[0].cw!=null){
+    ctx.beginPath();ctx.arc(cx,cy,pr*1.15,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,220,80,.7)';ctx.lineWidth=2;ctx.stroke();
+  }
+
+  requestAnimationFrame(drawMain);
+}
+
+function drawMini(cIdx,id,tOff){
+  const cv=document.getElementById(id);if(!cv)return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cx=W/2,cy=H/2;
+  const t=tA+tOff;ctx.clearRect(0,0,W,H);
+  const a=cores[cIdx].avg();
+  const pr=16+10*(Math.sin(t*2.1)*.5+.5)*(1+.3*a.d);
+  const r=Math.round(80+170*a.w),g=Math.round(20+170*a.d),bv=Math.round(200-150*a.c);
+  const gr=ctx.createRadialGradient(cx,cy,pr*.1,cx,cy,pr);
+  gr.addColorStop(0,`rgba(${r},${g},${bv},.9)`);gr.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.beginPath();ctx.arc(cx,cy,pr,0,Math.PI*2);ctx.fillStyle=gr;ctx.fill();
+  for(let i=0;i<35;i++){
+    const si=(i*14)%512;const c=cores[cIdx];
+    PART2[i].a+=.01+.015*c.d[si];
+    const rad=PART2[i].r*c.w[si]+pr*.8;
+    const px=cx+rad*Math.cos(PART2[i].a),py=cy+rad*Math.sin(PART2[i].a);
+    ctx.beginPath();ctx.arc(px,py,1+1.5*c.d[si],0,Math.PI*2);
+    ctx.fillStyle=`rgba(${Math.round(255*c.d[si])},${Math.round(100-70*c.co[si])},200,.6)`;ctx.fill();
+  }
+  ctx.strokeStyle=`rgba(80,200,160,${.15+.1*(Math.sin(tA*.5+cIdx*.8)*.5+.5)})`;
+  ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,pr*1.3,0,Math.PI*2);ctx.stroke();
+  requestAnimationFrame(()=>drawMini(cIdx,id,tOff));
+}
+
+function exportData(){
+  const data={timestamp:new Date().toISOString(),version:'ISC-V6-AUDIO-GPS',steps,intent:iMode,
+    averages:{core1:cores[0].avg(),core2:cores[1].avg(),core3:cores[2].avg()},
+    hashChain:cores[0].hc,collapseLog:clog,
+    anomalyActive,anomalyScore:cores[0].anom,jamDetect:cores[0].jam,
+    gpsPosition:gpsPos,gpsBeaconCount:gpsBeacons.length,gpsJamActive,
+    audioEnabled:!!audioCtx,intentVec:iDefs[iMode].vec,iscABridgeActive:iMode==='isc_a'};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=`ISC_V6_${Date.now()}.json`;a.click();URL.revokeObjectURL(url);
+  clog.unshift(`[${new Date().toLocaleTimeString('de-DE')}] ⬇ EXPORT · ${steps} Steps · GPS:${gpsPos?'FIX':'KEIN FIX'} · Audio:${audioCtx?'ON':'OFF'}`);
+  renderLog();
+}
+
+drawMain();
+drawMini(1,'c2',1.1);
+drawMini(2,'c3',2.3);
+setIntent('guardian');
+tickGPS();
+</script>
