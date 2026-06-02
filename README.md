@@ -1,346 +1,120 @@
-# ISC-Schrödinger V4.0 – GPU-Quanten-Orchestrator 🚀
+# ISC_Schroedinger — Quantum Orchestrator
 
-## Überblick
-
-**ISC-Schrödinger V4.0** ist eine hochmoderne Architektur für verteilte GPU-Quantensimulation mit:
-- **1024 parallele Neuronen-Zustände** auf GPU/VRAM
-- **Echtzeitvisualisierung** des Quanten-Kristalls auf dem Desktop
-- **CPU-GPU Bridge** für nicht-blockierende Kommunikation
-- **Blockchain-Integrität** durch Batch-Hashing über alle 1024 Zustände
-- **Mausinteraktion** zur dynamischen Intent-Modifikation
+> **GPU-Quantum Orchestrator with Real-time Visualization, Audio Feedback & ISC-A-Bridge GPS**  
+> Patent pending · DPMA submitted · Invented by Dmitrij Medkov (Daylux)
 
 ---
 
-## 📦 Architektur-Komponenten
+## Was ist das?
 
-### 1. **GPUSchroedingerSack** (`quantum_core.py`)
+Der ISC-Schrödinger-Orchestrator ist eine interaktive Echtzeit-Simulation der **ISC-Sicherheitsarchitektur** (Integrated Security Core). Er visualisiert 512 parallele Quantenzustände in einem lebendigen Kristall, gesteuert durch biologisch inspirierte Parameter: Dopamin, Cortisol und Bewusstsein.
 
-Der Kern der GPU-Quantensimulation mit 1024 parallelen Gedanken-Zustände.
-
-#### Features:
-- **Batch-Multiplikation** der Kopplungsmatrix (GPU-native, hocheffizient)
-- **Tensor-Evolution** mit 5 Feature-Dimensionen:
-  - `states[:, 0]` – Aktivation/Gewichte (Sigmoid)
-  - `states[:, 1]` – Dopamin (Motivation)
-  - `states[:, 2]` – Cortisol (Stress/Inhibition)
-  - `states[:, 3]` – Bewusstsein (Metakognition)
-  - `states[:, 4]` – Zufall (Kreativität)
-
-- **GPU-Batch-Hashing** zur Validierung der Superposition:
-  ```python
-  sack.evolve(dt=0.5)  # Gibt batch_hash zurück
-  ```
-
-- **Superposition-Kollaps** mit Intent-Vektor:
-  ```python
-  result = sack.kollabiere(np.array([1.0, 0.0, 0.0]))  # Winner-Zustand
-  ```
-
-- **Intent-Perturbation** für externe Steuersignale (z.B. Maus):
-  ```python
-  sack.inject_intent_perturbation([0.5, 0.3, 0.2], strength=0.1)
-  ```
+Das System ist sowohl Demo-Plattform als auch technischer Proof-of-Concept für die ISC-Patentfamilie.
 
 ---
 
-### 2. **CPUGPUBridge** (`quantum_core.py`)
+## Versionsübersicht
 
-Non-blocking Kommunikation zwischen CPU-Sentinel (V2.2) und GPU-Quanten-Kern.
-
-#### Architektur:
-- **Kommando-Queue** (cmd_queue): CPU → GPU, non-blocking
-- **Ergebnis-Queue** (result_queue): GPU → CPU, mit Request-ID-Korrelation
-- **Visualisierungs-Queue** (viz_queue): Separate Queue für HUD-Daten
-- **Status-Queue** (status_queue): Asynchrone Status-Updates
-
-#### Befehle:
-
-| Befehl | Funktion |
-|--------|----------|
-| `start_superposition(seed)` | Initialisiere 1024 Zustände |
-| `request_evolution(dt)` | Erzwinge einen Evolution-Schritt |
-| `request_collapse(intent_vec)` | Kollabiere mit Intent-Vektor → Winner |
-| `get_visualization_frame()` | Hole aktuellen GPU-Zustand für Display |
-| `pause()` / `resume()` | Pausiere/Fortsetzen der Evolution |
-| `stop()` | Beende Bridge sauber |
-
-#### Performance:
-- GPU-Loop läuft im separaten Thread @ ~60 FPS (16ms pro Schritt)
-- CPU blockiert niemals auf GPU-Befehle
-- Request-Correlation verhindert Race-Conditions
+| Version | Features |
+|---------|----------|
+| V4.0 | Einzelkern · 512 States · GPU-Simulation · Audio · Blockchain Hash-Chain |
+| V5.0 | 3 Kerne · Swarm-Immunsystem · Deepfake-Injektion (DFP V5.0) · JSON-Export |
+| V6.0 | Audio-Synthesizer (harmonisch/dissonant) · ISC-A-Bridge GPS-Karte · JAR-Beacon-Visualisierung |
 
 ---
 
-### 3. **QuantumCrystalVisualizer** (`visualizer.py`)
+## Features
 
-Echtzeit-Desktop-Overlay mit dynamischen Kristall-Visualisierungen.
+### Quantenkern-Simulation
+- **512 parallele Zustände** mit spärlicher Kopplungsmatrix (16 Nachbarn pro State)
+- Bio-Parameter in Echtzeit: Aktivation, Dopamin, Cortisol, Bewusstsein
+- Intent-gesteuerter **Wellenfunktions-Kollaps** (Guardian / Optimizer / Explorer / ISC-A)
+- Blockchain Hash-Chain als kryptografischer Fingerabdruck jedes Evolutionsschritts
 
-#### Features:
+### Swarm-Architektur (V5+)
+- 3 unabhängige Kerne koppeln sich gegenseitig über Swarm-Aktivierungen
+- ISC-Immun: automatische Selbstheilung nach Anomalie-Injektion
+- DFP V5.0 Deepfake-Detektion simuliert: Cortisol-Spike, Gewichtsverzerrung, GPS-Jam-Erkennung
 
-1. **Kristall-Kern** (Pulsierende Kugel):
-   - Größe moduliert durch Dopamin-Durchschnitt
-   - Farbe zeigt Weight/Dopamin/Cortisol-Balanz
-   - Aura-Ring zeigt Energiefeld
+### Audio-Synthesizer (V6)
+- **Harmonischer Akkord** (Sinus-Oszillatoren, Web Audio API) bei erfolgreichem Kollaps
+- **Dissonanter Alarm** (Sägezahn-Oszillatoren) bei Anomalie-/Deepfake-Injektion
+- **JAR Beacon-Ping** bei aktivem ISC-A-Bridge-Intent (Jamming Avoidance Response)
+- Lautstärke-Slider, Ereignis-Log mit Audio-Status
 
-2. **Partikel-Schwarm** (1024 Neuronen visualisiert):
-   - Orbitale Bewegung mit Dopamin-Geschwindigkeit
-   - Größe und Farbe nach individueller Aktivation
-   - Bis zu 256 Partikel gerendert (performant)
+### ISC-A-Bridge GPS-Karte (V6)
+- Echtzeit-GPS via Browser Geolocation API (mit Nutzer-Erlaubnis)
+- Darstellung der **Jamming Avoidance Response**: rotierende Beacon-Punkte mit binaural-phasenbasierter Navigation
+- GPS-Jam-Simulation: Rauschartefakte, Warnfarben, JAR-Aktivierungsstatus
+- Beacon-Verlaufspunkte mit Zeitstempel
 
-3. **HUD-Anzeigen**:
-   - FPS-Counter (60 FPS target)
-   - Durchschnittswerte (W, D, C)
-   - Intent-Vektor aus Mausposition
-
-4. **Maus-Interaktion**:
-   ```
-   Mausposition → normalisierte Koordinaten → Intent-Vektor
-   
-   Intent = [
-      max(0, -x_norm),      # Sicherheit (rechts)
-      max(0, -y_norm),      # Optimierung (unten)
-      sqrt(x_norm² + y_norm²) # Entdeckung (Distanz)
-   ]
-   ```
-
-#### Performance:
-- **CPU-Last**: ~5-10% (Python + Pygame)
-- **Rendering**: 60 FPS (lock to 60)
-- **GPU-Zugriff**: Non-blocking NumPy conversions von VRAM
+### Export
+- JSON-Export: Zeitstempel, Bio-Parameter aller 3 Kerne, Hash-Chain, Kollaps-Protokoll, GPS-Position, Anomalie-Status, Intent-Vektor
 
 ---
 
-## 🔐 Sicherheit & Blockchain-Integrität
+## Schnellstart (Web-Version)
 
-### Batch-Hashing
-
-Die GPU validiert die Integrität aller 1024 parallelen Gedanken durch Batch-Hashing:
-
-```python
-batch_hash = hashlib.blake2b(
-    states_tensor.cpu().numpy().tobytes(),  # 1024x5 Tensor serialisiert
-    digest_size=32
-).hexdigest()
-```
-
-**Hash-Kette** (verkettete Hashes pro Evolution-Schritt):
-- Jeder Schritt generiert einen neuen Hash basierend auf Zustandstensor + Memory-Tensor
-- Hashes werden verkettet für Blockchain-Validierung
-- Bei Superposition-Kollaps wird der aktuelle Hash zurückgegeben
-
-### Intent-Vektor-Validierung
-
-Jedem Kollaps-Request wird ein Intent-Vektor (z.B. [Security, Optimization, Discovery]) übergeben:
-- Cosine-Similarity zwischen Intent und GPU-Zustandsvektoren
-- Winner wird durch gewichtete Scoring-Funktion bestimmt
-- **Nicht manipulierbar**: Intent wird erst NACH Kollaps-Anfrage angewendet
-
----
-
-## 🚀 Verwendungsbeispiele
-
-### Beispiel 1: Basis-Quanten-Evolution
-
-```python
-from quantum_core import GPUSchroedingerSack, CPUGPUBridge
-
-# 1. GPU-Sack initialisieren (1024 Zustände auf VRAM)
-gpu_sack = GPUSchroedingerSack(n_states=1024, device='cuda')
-
-# 2. CPU-GPU-Brücke starten
-bridge = CPUGPUBridge(gpu_sack)
-
-# 3. Superposition starten
-bridge.start_superposition(seed=42)
-
-# 4. Mehrere Evolution-Schritte
-for i in range(100):
-    state = bridge.get_visualization_frame()
-    if state:
-        print(f"Step {i}: Avg Weight = {np.mean(state['data']['weights']):.3f}")
-
-# 5. Mit Intent-Vektor kollabieren
-result = bridge.request_collapse([1.0, 0.0, 0.0], timeout=5)
-print(f"Winner: {result['winner']}, Score: {result['score']:.4f}")
-```
-
-### Beispiel 2: Mit Maus-Interaktion
-
-```python
-from visualizer import VisualizerThread
-
-# Visualizer in separatem Thread starten
-viz = VisualizerThread(width=600, height=400, overlay=False)
-viz.start()
-
-# Maus-Intents sammeln und GPU-Perturbation anwenden
-for i in range(1000):
-    state = bridge.get_visualization_frame()
-    viz.update_state(state)
-    
-    # Sammle Intent-Vektoren aus Mausbewegung
-    intents = viz.get_intents()
-    for intent in intents:
-        gpu_sack.inject_intent_perturbation(intent, strength=0.05)
-
-viz.stop()
-```
-
-### Beispiel 3: Komplette Demo mit CPU-Sentinel
+Keine Installation nötig — einfach die HTML-Datei im Browser öffnen:
 
 ```bash
-python main_v4.py
+git clone https://github.com/DayluxKI/ISC_Schroedinger_V4.git
+cd ISC_Schroedinger_V4
+# ISC_V6_Audio_GPS.html im Browser öffnen
 ```
 
-Startet:
-1. GPU-Quanten-Sack (1024 Zustände)
-2. CPU-Sentinel V2.2 (Sicherheitswächter)
-3. Quantum-Crystal-Visualizer (Desktop-Overlay)
-4. 15-Sekunden Evolution
-5. Intent-Eingabe und Superposition-Kollaps
-6. Blockchain-Hash-Validierung
+Oder direkt online: [Live-Demo auf Bolt](https://interactive-react-qu-lnky.bolt.host)
 
 ---
 
-## 📊 Performance-Metriken
-
-### Getestet auf:
-- **GPU**: NVIDIA RTX 3060 / CPU (fallback)
-- **Python**: 3.9+
-- **PyTorch**: 2.0+
-- **Pygame**: 2.1+
-
-### Benchmarks:
-
-| Metrik | Wert |
-|--------|------|
-| Evolution-Schritt (1024 Zustände) | ~1ms (GPU) / ~5ms (CPU) |
-| Batch-Hash-Berechnung | ~2ms (GPU) / ~10ms (CPU) |
-| Superposition-Kollaps | ~3ms (GPU) / ~15ms (CPU) |
-| Visualizer-FPS | 60 FPS @ 600x400 |
-| CPU-Load während GPU-Evolution | ~3% |
-| VRAM-Nutzung | ~500MB (1024 Zustände) |
-
----
-
-## 🛠️ Installation
+## Desktop-Version (V4, Python)
 
 ```bash
-# Abhängigkeiten installieren
-pip install -r requirements.txt
-
-# Tests ausführen
-python test_v4_system.py
-
-# Demo starten (interactive)
-python main_v4.py
-
-# Visualizer standalone
-python visualizer.py
+pip install pygame numpy
+python isc_schroedinger_v4.py
 ```
 
-### Abhängigkeiten:
-- `argon2-cffi` – Sichere Passwort-Hashing
-- `torch` / `torchvision` / `torchaudio` – GPU-Computing
-- `numpy` – Numerische Operationen
-- `pygame` – Visualisierung
+Anforderungen: Python 3.9+, pygame, numpy. Optionales CUDA für GPU-Beschleunigung.
 
 ---
 
-## 🔧 Interne API
+## ISC-Patentfamilie
 
-### GPUSchroedingerSack
+Dieses Repository demonstriert Kernkonzepte aus der ISC-Patentfamilie (patent pending, DPMA):
 
-```python
-# Initialisierung
-sack = GPUSchroedingerSack(n_states=1024, device='cuda')
+| Patent | Beschreibung |
+|--------|-------------|
+| ISC V4.0 | Meta-Reality-Validierung · Foundational Architecture |
+| DFP V5.0 | Deepfake-Erkennung für autonome Systeme |
+| ISC-A / ISC-A-Bridge V2 | Akustische Beacon-Navigation · GPS-Jam-Resistenz · JAR |
+| ISC-Immun | Schwarm-Immunsystem für autonome Flotten |
+| ISC-E | Umgebungsvalidierung |
+| ISC-Chamäleon | Adaptive Kommunikation |
 
-# Evolution mit Hash
-batch_hash = sack.evolve(dt=0.5)
-
-# Superposition-Kollaps
-result = sack.kollabiere(intent_vector)  # → {'winner': int, 'score': float, ...}
-
-# Visualisierungsdaten
-viz_data = sack.get_visualization_data()  # → {'weights': ..., 'dopamine': ..., ...}
-
-# Intent-Perturbation (externe Steuerung)
-sack.inject_intent_perturbation(intent_vec, strength=0.1)
-
-# Reset
-sack.reset(seed=42)
-```
-
-### CPUGPUBridge
-
-```python
-# Kommunikation
-bridge = CPUGPUBridge(gpu_sack)
-
-bridge.start_superposition(seed=42)
-result = bridge.request_collapse([1, 0, 0], timeout=10)
-frame = bridge.get_visualization_frame()
-status = bridge.get_status()  # → 'SUPERPOSITION_STARTED', 'COLLAPSED', etc.
-
-bridge.pause()
-bridge.resume()
-bridge.stop()
-```
-
-### QuantumCrystalVisualizer
-
-```python
-# Standalone
-from visualizer import start_visualizer
-start_visualizer(overlay=False)  # oder overlay=True
-
-# Threaded
-from visualizer import VisualizerThread
-viz = VisualizerThread(width=600, height=400)
-viz.start()
-viz.update_state(state_data)
-intents = viz.get_intents()  # Maus-Input
-viz.stop()
-```
+> **Hinweis:** Der Quellcode dient der Demonstration. Alle patentierten Verfahren und Architekturen sind beim DPMA angemeldet.
 
 ---
 
-## 📖 Fachliche Erklärung
+## Technologie
 
-### Quanten-Inspiration
-
-Obwohl dies keine echte Quantenmechanik implementiert, sind die Konzepte davon inspiriert:
-
-1. **Superposition**: 1024 parallele Zustände, die gleichzeitig "existieren"
-2. **Kollaps**: Observer-Effekt durch Intent-Vektor (Messung zerstört Superposition)
-3. **Entanglement**: Kopplungsmatrix verbindet alle Zustände miteinander
-4. **Observables**: Dopamin, Cortisol, Bewusstsein sind messbare Variablen
-5. **Wave Function**: Zustandstensor ist die kontinuierliche "Welle"
-
-### GPU-Optimization
-
-- **Batch-Operationen**: `torch.mm(coupling, weights)` ist 1000x schneller als Schleife
-- **VRAM-Residency**: Alle 1024 Zustände bleiben auf GPU, nur HUD-Daten zurück zu CPU
-- **Kernelisierung**: PyTorch compiliert zu CUDA-Kernels für maximale Parallelität
+- **Frontend**: React / Vanilla HTML · Canvas API · Web Audio API
+- **Simulation**: Pure JavaScript · Float32Array für Performance
+- **GPS**: Browser Geolocation API (kein externer Dienst)
+- **Audio**: Web Audio API · Oscillator Nodes (keine Bibliothek)
+- **Export**: Blob-Download · JSON
 
 ---
 
-## 🎯 Zukünftige Erweiterungen
+## Kontakt & Lizenz
 
-1. **Multi-GPU**: Verteile 1024 Zustände auf mehrere GPUs
-2. **Spektral-Analyse**: FFT der Zustandsevolution zur Frequenz-Extraktion
-3. **Adaptive Lernrate**: Optimizer-Loop zur Tuning der Dopamin/Cortisol-Dynamik
-4. **Verteilte Blockchain**: Hash-Kette zu echtem Ethereum/Solana
-5. **RL-Integration**: Reinforcement Learning über Kollaps-Rewards
-6. **Real-time Audio**: Sonic Feedback basierend auf Quanten-Zustand
+**Erfinder**: Dmitrij Medkov (Daylux)  
+**E-Mail**: medkov@web.de  
+**GitHub**: [@DayluxKI](https://github.com/DayluxKI)  
+**Standort**: Enger, Deutschland
 
----
-
-## 🤝 Lizenz & Credits
-
-Autor: Dmitrij Medkov & DeepSeek-Pupsik  
-Datum: 2026-06-02
+© 2024–2026 Dmitrij Medkov · Alle Rechte vorbehalten  
+Patente angemeldet beim Deutschen Patent- und Markenamt (DPMA)
 
 ---
 
-**ISC-Schrödinger V4.0 – Waar die Kat atemt, träumt der Computer.** 🐱✨
+*"Der Kristall soll nicht nur leuchten — er soll wachsen."*
